@@ -8,6 +8,7 @@ import (
 
 	"github.com/sagernet/sing-box"
 	"github.com/sagernet/sing-box/adapter"
+	"github.com/sagernet/sing-box/common/betterjson"
 	"github.com/sagernet/sing-box/common/process"
 	"github.com/sagernet/sing-box/experimental/libbox/platform"
 	"github.com/sagernet/sing-box/include"
@@ -22,7 +23,11 @@ import (
 )
 
 func parseConfig(ctx context.Context, configContent string) (option.Options, error) {
-	options, err := json.UnmarshalExtendedContext[option.Options](ctx, []byte(configContent))
+	parsedContent, err := betterjson.PreConvert([]byte(configContent))
+	if err != nil {
+		return option.Options{}, E.Cause(err, "decode config")
+	}
+	options, err := json.UnmarshalExtended[option.Options](parsedContent)
 	if err != nil {
 		return option.Options{}, E.Cause(err, "decode config")
 	}
