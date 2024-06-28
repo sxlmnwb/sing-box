@@ -43,6 +43,8 @@ type InboundContext struct {
 
 	// cache
 
+	DNSMode              string
+	Domain               string
 	InboundDetour        string
 	LastInbound          string
 	OriginDestination    M.Socksaddr
