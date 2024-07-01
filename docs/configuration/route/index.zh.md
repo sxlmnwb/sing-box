@@ -19,7 +19,8 @@
     "auto_detect_interface": false,
     "override_android_vpn": false,
     "default_interface": "en0",
-    "default_mark": 233
+    "default_mark": 233,
+    "concurrent_dial": false
   }
 }
 ```
@@ -82,3 +83,7 @@
 默认为出站连接设置路由标记。
 
 如果设置了 `outbound.routing_mark` 设置，则不生效。
+
+#### concurrent_dial
+
+并发每个拨号三次并返回最先打开的连接。

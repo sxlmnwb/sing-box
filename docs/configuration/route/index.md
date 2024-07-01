@@ -19,7 +19,8 @@
     "auto_detect_interface": false,
     "override_android_vpn": false,
     "default_interface": "en0",
-    "default_mark": 233
+    "default_mark": 233,
+    "concurrent_dial": false
   }
 }
 ```
@@ -82,3 +83,7 @@ Takes no effect if `auto_detect_interface` is set.
 Set routing mark by default.
 
 Takes no effect if `outbound.routing_mark` is set.
+
+#### concurrent_dial
+
+If not set, every dial will be triple-concurrently. The fastest connection opened will be returned.

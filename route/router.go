@@ -142,6 +142,7 @@ func NewRouter(
 		}),
 		reloadChan: reloadChan,
 	}
+	dialer.ConcurrentDial = options.ConcurrentDial
 	router.dnsClient = dns.NewClient(dns.ClientOptions{
 		DisableCache:     dnsOptions.DNSClientOptions.DisableCache,
 		DisableExpire:    dnsOptions.DNSClientOptions.DisableExpire,
