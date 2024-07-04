@@ -9,6 +9,28 @@ import (
 	"github.com/sagernet/sing/common/json"
 )
 
+type FallBackRule struct {
+	AcceptResult bool             `json:"accept_result,omitempty"`
+	MatchAll     bool             `json:"match_all,omitempty"`
+	ClashMode    Listable[string] `json:"clash_mode,omitempty"`
+	IPCIDR       Listable[string] `json:"ip_cidr,omitempty"`
+	GeoIP        Listable[string] `json:"geoip,omitempty"`
+	RuleSet      Listable[string] `json:"rule_set,omitempty"`
+	IPIsPrivate  bool             `json:"ip_is_private,omitempty"`
+	Invert       bool             `json:"invert,omitempty"`
+	Server       string           `json:"server,omitempty"`
+	DisableCache bool             `json:"disable_cache,omitempty"`
+	RewriteTTL   *uint32          `json:"rewrite_ttl,omitempty"`
+	ClientSubnet *AddrPrefix      `json:"client_subnet,omitempty"`
+}
+
+func (r FallBackRule) IsValid() bool {
+	var defaultValue DefaultDNSRule
+	defaultValue.Invert = r.Invert
+	defaultValue.Server = r.Server
+	return !reflect.DeepEqual(r, defaultValue)
+}
+
 type _DNSRule struct {
 	Type           string         `json:"type,omitempty"`
 	DefaultOptions DefaultDNSRule `json:"-"`
@@ -93,7 +115,7 @@ type _DefaultDNSRule struct {
 	User                     Listable[string]       `json:"user,omitempty"`
 	UserID                   Listable[int32]        `json:"user_id,omitempty"`
 	Outbound                 Listable[string]       `json:"outbound,omitempty"`
-	ClashMode                string                 `json:"clash_mode,omitempty"`
+	ClashMode                Listable[string]       `json:"clash_mode,omitempty"`
 	WIFISSID                 Listable[string]       `json:"wifi_ssid,omitempty"`
 	WIFIBSSID                Listable[string]       `json:"wifi_bssid,omitempty"`
 	RuleSet                  Listable[string]       `json:"rule_set,omitempty"`
