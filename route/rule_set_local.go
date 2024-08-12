@@ -31,6 +31,8 @@ func NewLocalRuleSet(ctx context.Context, router adapter.Router, logger logger.C
 			router: router,
 			logger: logger,
 			tag:    options.Tag,
+			sType:  options.Type,
+			format: options.Format,
 		},
 	}
 	if options.Type == C.RuleSetTypeInline {
@@ -44,7 +46,6 @@ func NewLocalRuleSet(ctx context.Context, router adapter.Router, logger logger.C
 		return ruleSet, nil
 	}
 	ruleSet.path = options.Path
-	ruleSet.format = options.Format
 	path, err := ruleSet.getPath(options.Path)
 	if err != nil {
 		return nil, err
@@ -140,6 +141,10 @@ func (s *LocalRuleSet) RegisterCallback(callback adapter.RuleSetUpdateCallback) 
 }
 
 func (s *LocalRuleSet) UnregisterCallback(element *list.Element[adapter.RuleSetUpdateCallback]) {
+}
+
+func (s *LocalRuleSet) Update(ctx context.Context) error {
+	return nil
 }
 
 func (s *LocalRuleSet) Close() error {
