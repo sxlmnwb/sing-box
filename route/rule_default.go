@@ -45,8 +45,13 @@ type RuleItem interface {
 func NewDefaultRule(router adapter.Router, logger log.ContextLogger, options option.DefaultRule) (*DefaultRule, error) {
 	rule := &DefaultRule{
 		abstractDefaultRule{
-			invert:   options.Invert,
-			outbound: options.Outbound,
+			abstractRule: abstractRule{
+				uuid:        id.String(),
+				tag:         options.Tag,
+				invert:      options.Invert,
+				outbound:    options.Outbound,
+				skipResolve: options.SkipResolve,
+			},
 		},
 	}
 	if len(options.Inbound) > 0 {
@@ -220,6 +225,7 @@ func NewDefaultRule(router adapter.Router, logger log.ContextLogger, options opt
 	if len(options.RuleSet) > 0 {
 		item := NewRuleSetItem(router, options.RuleSet, options.RuleSetIPCIDRMatchSource, false)
 		rule.items = append(rule.items, item)
+		rule.ruleSetItems = append(rule.ruleSetItems, item)
 		rule.allItems = append(rule.allItems, item)
 	}
 	return rule, nil
@@ -234,9 +240,14 @@ type LogicalRule struct {
 func NewLogicalRule(router adapter.Router, logger log.ContextLogger, options option.LogicalRule) (*LogicalRule, error) {
 	r := &LogicalRule{
 		abstractLogicalRule{
-			rules:    make([]adapter.HeadlessRule, len(options.Rules)),
-			invert:   options.Invert,
-			outbound: options.Outbound,
+			abstractRule: abstractRule{
+				uuid:        id.String(),
+				tag:         options.Tag,
+				invert:      options.Invert,
+				outbound:    options.Outbound,
+				skipResolve: options.SkipResolve,
+			},
+			rules: make([]adapter.HeadlessRule, len(options.Rules)),
 		},
 	}
 	switch options.Mode {

@@ -10,6 +10,32 @@ import (
 	F "github.com/sagernet/sing/common/format"
 )
 
+type abstractRule struct {
+	disabled    bool
+	uuid        string
+	tag         string
+	invert      bool
+	ruleCount   uint64
+	outbound    string
+	skipResolve bool
+}
+
+func (r *abstractRule) Disabled() bool {
+	return r.disabled
+}
+
+func (r *abstractRule) UUID() string {
+	return r.uuid
+}
+
+func (r *abstractRule) ChangeStatus() {
+	r.disabled = !r.disabled
+}
+
+func (r *abstractRule) RuleCount() uint64 {
+	return r.ruleCount
+}
+
 type abstractDefaultRule struct {
 	items                   []RuleItem
 	sourceAddressItems      []RuleItem
@@ -18,18 +44,22 @@ type abstractDefaultRule struct {
 	destinationIPCIDRItems  []RuleItem
 	destinationPortItems    []RuleItem
 	allItems                []RuleItem
-	ruleSetItem             RuleItem
-	ruleCount               uint64
-	invert                  bool
-	outbound                string
+	ruleSetItems            []RuleItem
 }
 
 func (r *abstractDefaultRule) Type() string {
 	return C.RuleTypeDefault
 }
 
-func (r *abstractDefaultRule) RuleCount() uint64 {
-	return r.ruleCount
+func (r *abstractDefaultRule) SkipResolve() bool {
+	return r.skipResolve
+}
+
+func (r *abstractDefaultRule) ContainsDestinationIPCIDRRule() bool {
+	return len(r.destinationIPCIDRItems) > 0 || common.Any(r.ruleSetItems, func(it RuleItem) bool {
+		r, _ := it.(*RuleSetItem)
+		return r.ContainsDestinationIPCIDRRule()
+	})
 }
 
 func (r *abstractDefaultRule) Start() error {
@@ -179,8 +209,14 @@ func (r *abstractLogicalRule) Type() string {
 	return C.RuleTypeLogical
 }
 
-func (r *abstractLogicalRule) RuleCount() uint64 {
-	return r.ruleCount
+func (r *abstractLogicalRule) SkipResolve() bool {
+	return r.skipResolve
+}
+
+func (r *abstractLogicalRule) ContainsDestinationIPCIDRRule() bool {
+	return common.Any(r.rules, func(it adapter.HeadlessRule) bool {
+		return it.ContainsDestinationIPCIDRRule()
+	})
 }
 
 func (r *abstractLogicalRule) UpdateGeosite() error {
