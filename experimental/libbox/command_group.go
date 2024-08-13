@@ -144,9 +144,6 @@ func writeGroups(writer io.Writer, boxService *BoxService) error {
 			}
 			outboundGroup.ItemList = append(outboundGroup.ItemList, &item)
 		}
-		if len(outboundGroup.ItemList) < 2 {
-			continue
-		}
 		groups = append(groups, outboundGroup)
 	}
 	return varbin.Write(writer, binary.BigEndian, groups)
