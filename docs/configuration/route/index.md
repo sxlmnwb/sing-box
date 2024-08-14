@@ -20,7 +20,8 @@
     "override_android_vpn": false,
     "default_interface": "en0",
     "default_mark": 233,
-    "concurrent_dial": false
+    "concurrent_dial": false,
+    "keep_alive_interval": "15s"
   }
 }
 ```
@@ -87,3 +88,12 @@ Takes no effect if `outbound.routing_mark` is set.
 #### concurrent_dial
 
 If not set, every dial will be triple-concurrently. The fastest connection opened will be returned.
+
+#### keep_alive_interval
+
+The period between TCP keep-alives. `15s` will be used if empty.
+
+A period string is a possibly signed sequence of
+decimal numbers, each with optional fraction and a unit suffix,
+such as "300ms", "-1.5h" or "2h45m".
+Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h".

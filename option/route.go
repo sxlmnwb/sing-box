@@ -12,6 +12,7 @@ type RouteOptions struct {
 	DefaultInterface     string          `json:"default_interface,omitempty"`
 	DefaultMark          uint32          `json:"default_mark,omitempty"`
 	ConcurrentDial       bool            `json:"concurrent_dial,omitempty"`
+	KeepAliveInterval    Duration        `json:"keep_alive_interval,omitempty"`
 }
 
 type GeoIPOptions struct {
