@@ -95,8 +95,8 @@ github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZb
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/puernya/sing v0.0.0-20240813154738-7869f22b3a64 h1:F7oxfOHLMfr31ZleJNeYBEblx1cLqDdby8mQHb1jqI4=
 github.com/puernya/sing v0.0.0-20240813154738-7869f22b3a64/go.mod h1:ARkL0gM13/Iv5VCZmci/NuoOlePoIsW0m7BWfln/Hak=
-github.com/puernya/sing-dns v0.0.0-20240815232625-c9d5dd3bf2fb h1:1GY+RMOqzUuAMGEWfHnPT52AI0e70r2VRWF0HJPwoEw=
-github.com/puernya/sing-dns v0.0.0-20240815232625-c9d5dd3bf2fb/go.mod h1:rscgSr5ixOPk8XM9ZMLuMXCyldEQ1nLvdl0nfv+lp00=
+github.com/puernya/sing-dns v0.0.0-20240815232643-6fdfdcca8106 h1:FHS6pxDFCvaKgWf18k34OZgztOVtpK6XfDvH2FBv/ww=
+github.com/puernya/sing-dns v0.0.0-20240815232643-6fdfdcca8106/go.mod h1:rscgSr5ixOPk8XM9ZMLuMXCyldEQ1nLvdl0nfv+lp00=
 github.com/quic-go/qpack v0.4.0 h1:Cr9BXA1sQS2SmDUWjSofMPNKmvF6IiIfDRmgU0w1ZCo=
 github.com/quic-go/qpack v0.4.0/go.mod h1:UZVnYIfi5GRk+zI9UMaCPsmZ2xKJP7XBUvVyT1Knj9A=
 github.com/quic-go/qtls-go1-20 v0.4.1 h1:D33340mCNDAIKBqXuAvexTNMUByrYmFYVfKfDN5nfFs=
