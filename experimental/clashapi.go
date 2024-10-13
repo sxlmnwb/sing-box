@@ -72,9 +72,6 @@ func extraClashModeFromDNSRule(rules []option.DNSRule) []string {
 		case C.RuleTypeLogical:
 			clashMode = append(clashMode, extraClashModeFromDNSRule(rule.LogicalOptions.Rules)...)
 		}
-		for _, rule := range rule.FallBackRules {
-			clashMode = append(clashMode, rule.ClashMode...)
-		}
 	}
 	return clashMode
 }
