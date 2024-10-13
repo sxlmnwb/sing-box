@@ -78,7 +78,7 @@ func updateProvider(server *Server, router adapter.Router) func(w http.ResponseW
 	}
 }
 
-func healthCheckProvider(server *Server) func(w http.ResponseWriter, r *http.Request) {
+func healthCheckProvider(_ *Server) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		provider := r.Context().Value(CtxKeyProvider).(adapter.OutboundProvider)
 

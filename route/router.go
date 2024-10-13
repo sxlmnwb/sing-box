@@ -1180,28 +1180,6 @@ func (r *Router) RoutePacketConnection(ctx context.Context, conn N.PacketConn, m
 	return detour.NewPacketConnection(ctx, conn, metadata)
 }
 
-func (r *Router) mustResolve(detour adapter.Outbound, metadata *adapter.InboundContext) bool {
-	if metadata.IsResolved {
-		return false
-	}
-	if r.stopAlwaysResolveUDP {
-		return false
-	}
-	if !metadata.Destination.IsFqdn() {
-		return false
-	}
-	if len(metadata.DestinationAddresses) > 0 {
-		return false
-	}
-	tag := O.RealOutboundTag(detour, N.NetworkUDP)
-	outbound, _ := r.OutboundWithProvider(tag)
-	switch outbound.Type() {
-	case C.TypeBlock, C.TypeDNS:
-		return false
-	}
-	return true
-}
-
 func (r *Router) match(ctx context.Context, metadata *adapter.InboundContext, defaultOutbound adapter.Outbound) (context.Context, adapter.Rule, adapter.Outbound, error) {
 	matchRule, matchOutbound := r.match0(ctx, metadata, defaultOutbound)
 	if contextOutbound, loaded := O.TagFromContext(ctx); loaded {
@@ -1283,10 +1261,8 @@ func (r *Router) match0(ctx context.Context, metadata *adapter.InboundContext, d
 func (r *Router) mustUseIP(outbound adapter.Outbound, network string) bool {
 	tag := O.RealOutboundTag(outbound, network)
 	detour, _ := r.OutboundWithProvider(tag)
-	if d, ok := detour.(adapter.OutboundUseIP); ok {
-		return d.UseIP()
-	}
-	if network == N.NetworkTCP {
+	d, ok := detour.(adapter.OutboundUseIP)
+	if !ok {
 		return false
 	}
 	return d.UseIP()

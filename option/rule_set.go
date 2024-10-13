@@ -14,7 +14,7 @@ import (
 )
 
 type _RuleSet struct {
-	Type          string        `json:"type,omitempty"`
+	Type          string        `json:"type"`
 	Tag           string        `json:"tag"`
 	Format        string        `json:"format"`
 	Path          string        `json:"path,omitempty"`

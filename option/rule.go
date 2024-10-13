@@ -129,7 +129,6 @@ func (r *DefaultRule) IsValid() bool {
 }
 
 type LogicalRule struct {
-	Tag         string `json:"tag,omitempty"`
 	Mode        string `json:"mode"`
 	Rules       []Rule `json:"rules,omitempty"`
 	Invert      bool   `json:"invert,omitempty"`

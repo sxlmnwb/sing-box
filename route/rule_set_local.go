@@ -22,7 +22,7 @@ type LocalRuleSet struct {
 	watcher *fswatch.Watcher
 }
 
-func NewLocalRuleSet(router adapter.Router, logger logger.ContextLogger, options option.RuleSet) (*LocalRuleSet, error) {
+func NewLocalRuleSet(ctx context.Context, router adapter.Router, logger logger.ContextLogger, options option.RuleSet) (*LocalRuleSet, error) {
 	ruleSet := &LocalRuleSet{
 		abstractRuleSet: abstractRuleSet{
 			router: router,

@@ -45,10 +45,18 @@ type abstractDefaultRule struct {
 	destinationPortItems    []RuleItem
 	allItems                []RuleItem
 	ruleSetItems            []RuleItem
+	ruleCount               uint64
+	invert                  bool
+	skipResolve             bool
+	outbound                string
 }
 
 func (r *abstractDefaultRule) Type() string {
 	return C.RuleTypeDefault
+}
+
+func (r *abstractDefaultRule) RuleCount() uint64 {
+	return r.ruleCount
 }
 
 func (r *abstractDefaultRule) SkipResolve() bool {
@@ -198,15 +206,20 @@ func (r *abstractDefaultRule) String() string {
 }
 
 type abstractLogicalRule struct {
-	rules     []adapter.HeadlessRule
-	mode      string
-	invert    bool
-	outbound  string
-	ruleCount uint64
+	rules       []adapter.HeadlessRule
+	mode        string
+	invert      bool
+	skipResolve bool
+	outbound    string
+	ruleCount   uint64
 }
 
 func (r *abstractLogicalRule) Type() string {
 	return C.RuleTypeLogical
+}
+
+func (r *abstractLogicalRule) RuleCount() uint64 {
+	return r.ruleCount
 }
 
 func (r *abstractLogicalRule) SkipResolve() bool {
