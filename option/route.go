@@ -6,7 +6,6 @@ type RouteOptions struct {
 	Rules                []Rule          `json:"rules,omitempty"`
 	RuleSet              []RuleSet       `json:"rule_set,omitempty"`
 	Final                string          `json:"final,omitempty"`
-	StopAlwaysResolveUDP bool            `json:"stop_always_resolve_udp,omitempty"`
 	FindProcess          bool            `json:"find_process,omitempty"`
 	AutoDetectInterface  bool            `json:"auto_detect_interface,omitempty"`
 	OverrideAndroidVPN   bool            `json:"override_android_vpn,omitempty"`
