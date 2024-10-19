@@ -98,10 +98,11 @@ func (v *NetworkList) UnmarshalJSON(content []byte) error {
 		}
 		networkList = []string{networkItem}
 	}
+	outerLoop:
 	for _, networkName := range networkList {
 		switch networkName {
 		case N.NetworkTCP, N.NetworkUDP:
-			break
+			break outerLoop
 		default:
 			return E.New("unknown network: " + networkName)
 		}
