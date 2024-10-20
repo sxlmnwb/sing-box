@@ -72,6 +72,17 @@ func (r *RuleSet) UnmarshalJSON(bytes []byte) error {
 	default:
 		return E.New("unknown rule-set type: " + r.Type)
 	}
+	if r.Type != C.RuleSetTypeInline {
+		switch r.Format {
+		case "":
+			return E.New("missing format")
+		case C.RuleSetFormatSource, C.RuleSetFormatBinary:
+		default:
+			return E.New("unknown rule-set format: " + r.Format)
+		}
+	} else {
+		r.Format = ""
+	}
 	err = UnmarshallExcluded(bytes, (*_RuleSet)(r), v)
 	if err != nil {
 		return err
