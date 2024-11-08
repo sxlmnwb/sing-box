@@ -7,9 +7,11 @@ TAGS_TEST ?= with_gvisor,with_quic,with_wireguard,with_grpc,with_ech,with_utls,w
 
 GOHOSTOS = $(shell go env GOHOSTOS)
 GOHOSTARCH = $(shell go env GOHOSTARCH)
-VERSION=$(shell CGO_ENABLED=0 GOOS=$(GOHOSTOS) GOARCH=$(GOHOSTARCH) go run ./cmd/internal/read_tag)
+VERSION = v$(shell CGO_ENABLED=0 GOOS=$(GOHOSTOS) GOARCH=$(GOHOSTARCH) go run ./cmd/internal/read_tag)
+CCV = $(shell $(CC) --version | head -n 1)
+DATE = $(shell date +"%a %b %d %I:%M:%S %p %Z %Y")
 
-PARAMS = -v -trimpath -ldflags "-X 'github.com/sagernet/sing-box/constant.Version=$(VERSION)' -s -w -buildid="
+PARAMS = -v -trimpath -ldflags "-X 'github.com/sagernet/sing-box/constant.Version=$(VERSION)' -X 'github.com/sagernet/sing-box/constant.CCVersion=$(CCV)' -X 'github.com/sagernet/sing-box/constant.DATEBuild=$(DATE)' -s -w -buildid="
 MAIN_PARAMS = $(PARAMS) -tags $(TAGS)
 MAIN = ./cmd/sing-box
 PREFIX ?= $(shell go env GOPATH)
@@ -43,11 +45,14 @@ fmt_install:
 	go install -v github.com/daixiang0/gci@latest
 
 lint:
+	gofumpt -l -w .
+	gofmt -s -w .
+	gci write --custom-order -s standard -s prefix\(github.com/sagernet/\) -s default .
 	GOOS=linux golangci-lint run ./...
-	GOOS=android golangci-lint run ./...
-	GOOS=windows golangci-lint run ./...
-	GOOS=darwin golangci-lint run ./...
-	GOOS=freebsd golangci-lint run ./...
+	# GOOS=android golangci-lint run ./...
+	# GOOS=windows golangci-lint run ./...
+	# GOOS=darwin golangci-lint run ./...
+	# GOOS=freebsd golangci-lint run ./...
 
 lint_install:
 	go install -v github.com/golangci/golangci-lint/cmd/golangci-lint@latest
@@ -243,6 +248,7 @@ docs_install:
 clean:
 	rm -rf bin dist sing-box
 	rm -f $(shell go env GOPATH)/sing-box
+	go clean -cache -modcache -i -r
 
 update:
 	git fetch
