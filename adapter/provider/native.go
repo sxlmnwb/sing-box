@@ -433,7 +433,8 @@ func newVLESSNativeParser(content string) (option.Outbound, error) {
 	for key, value := range proxy {
 		switch key {
 		case "type":
-			Transport := option.V2RayTransportOptions{
+			var Transport *option.V2RayTransportOptions
+			Transport = &option.V2RayTransportOptions{
 				Type: "",
 				WebsocketOptions: option.V2RayWebsocketOptions{
 					Headers: map[string]badoption.Listable[string]{},
@@ -483,8 +484,10 @@ func newVLESSNativeParser(content string) (option.Outbound, error) {
 				if serviceName, exists := proxy["serviceName"]; exists && serviceName != "" {
 					Transport.GRPCOptions.ServiceName = serviceName
 				}
+			default:
+				Transport = nil
 			}
-			options.Transport = &Transport
+			options.Transport = Transport
 		case "security":
 			if value == "tls" {
 				TLSOptions.Enabled = true
