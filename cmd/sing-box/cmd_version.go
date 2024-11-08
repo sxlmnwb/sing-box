@@ -47,11 +47,24 @@ func printVersion(cmd *cobra.Command, args []string) {
 		}
 	}
 
+	ccVersion := C.CCVersion
+	dateBuild := C.DATEBuild
+
 	if tags != "" {
 		version += "Tags: " + tags + "\n"
 	}
 	if revision != "" {
 		version += "Revision: " + revision + "\n"
+	}
+	if ccVersion != "" {
+		version += "Prebuilt: " + ccVersion + "\n"
+	} else {
+		version += "Prebuilt: unknown\n"
+	}
+	if dateBuild != "" {
+		version += "Date Build: " + dateBuild + "\n"
+	} else {
+		version += "Date Build: unknown\n"
 	}
 
 	if C.CGO_ENABLED {

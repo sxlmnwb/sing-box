@@ -1,3 +1,7 @@
 package constant
 
-var Version = "unknown"
+var (
+	Version   = "unknown"
+	CCVersion string
+	DATEBuild string
+)
