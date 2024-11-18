@@ -101,6 +101,7 @@ func (h *Outbound) UnmarshalJSON(bytes []byte) error {
 	}
 	return nil
 }
+
 type DialerOptionsWrapper interface {
 	TakeDialerOptions() DialerOptions
 	ReplaceDialerOptions(options DialerOptions)

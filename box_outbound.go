@@ -39,7 +39,9 @@ func (s *Box) startProviderOutbounds() error {
 				outboundTag[tag] = count
 			}
 			outboundTag[tag] = 0
-			if starter, isStarter := out.(common.Starter); isStarter {
+			if starter, isStarter := out.(interface {
+				Start() error
+			}); isStarter {
 				monitor.Start("initialize outbound provider[", pTag, "]", " outbound/", out.Type(), "[", tag, "]")
 				err := starter.Start()
 				monitor.Finish()

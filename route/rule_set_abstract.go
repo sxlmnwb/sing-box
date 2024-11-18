@@ -18,6 +18,7 @@ import (
 	"github.com/sagernet/sing/common/json"
 	"github.com/sagernet/sing/common/logger"
 	"github.com/sagernet/sing/common/rw"
+
 	"go4.org/netipx"
 )
 
@@ -134,20 +135,20 @@ func (s *abstractRuleSet) loadBytes(content []byte) error {
 			return err
 		}
 		plainRuleSet, err = compat.Upgrade()
-        if err != nil {
-            return err
-        }
+		if err != nil {
+			return err
+		}
 
-    case C.RuleSetFormatBinary:
-        var compat option.PlainRuleSetCompat
-        compat, err = srs.Read(bytes.NewReader(content), false)
-        if err != nil {
-            return err
-        }
-        plainRuleSet, err = compat.Upgrade()
-        if err != nil {
-            return err
-        }
+	case C.RuleSetFormatBinary:
+		var compat option.PlainRuleSetCompat
+		compat, err = srs.Read(bytes.NewReader(content), false)
+		if err != nil {
+			return err
+		}
+		plainRuleSet, err = compat.Upgrade()
+		if err != nil {
+			return err
+		}
 	default:
 		return E.New("unknown rule-set format: ", s.format)
 	}

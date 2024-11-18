@@ -2,10 +2,12 @@ package outbound
 
 import (
 	"context"
-	R "github.com/dlclark/regexp2"
+
 	"github.com/sagernet/sing-box/adapter"
 	C "github.com/sagernet/sing-box/constant"
 	"github.com/sagernet/sing/common"
+
+	R "github.com/dlclark/regexp2"
 )
 
 type myGroupAdapter struct {

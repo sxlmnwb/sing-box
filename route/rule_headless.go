@@ -160,7 +160,7 @@ func NewDefaultHeadlessRule(router adapter.Router, options option.DefaultHeadles
 		rule.allItems = append(rule.allItems, item)
 	}
 	switch true {
-	case len(rule.allItems) == len(rule.destinationAddressItems) + len(rule.destinationIPCIDRItems):
+	case len(rule.allItems) == len(rule.destinationAddressItems)+len(rule.destinationIPCIDRItems):
 		rule.ruleCount = uint64(len(rule.destinationAddressItems) + len(rule.destinationIPCIDRItems))
 	case len(rule.allItems) == len(rule.sourceAddressItems):
 		rule.ruleCount = uint64(len(rule.sourceAddressItems))

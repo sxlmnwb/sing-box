@@ -21,7 +21,7 @@ func New(ctx context.Context, router adapter.Router, logger log.ContextLogger, o
 	if foundPath, loaded := C.FindPath(path); loaded {
 		path = foundPath
 	}
-	if !rw.FileExists(path) {
+	if !rw.IsFile(path) {
 		path = filemanager.BasePath(ctx, path)
 	}
 	if stat, err := os.Stat(path); err == nil {

@@ -201,7 +201,7 @@ func trimBlank(str string) string {
 	return str
 }
 
-func (p *myProviderAdapter) getContentFromFile(router adapter.Router) (SubInfo, string) {
+func (p *myProviderAdapter) getContentFromFile(_ adapter.Router) (SubInfo, string) {
 	contentRaw := getTrimedFile(p.path)
 	content := decodeBase64Safe(string(contentRaw))
 	firstLine, others := getFirstLine(content)
@@ -333,7 +333,9 @@ func (p *myProviderAdapter) startOutbounds(router adapter.Router, outbounds []ad
 		}
 		outboundTag[tag] = true
 		monitor := taskmonitor.New(p.logger, C.StartTimeout)
-		if starter, isStarter := out.(common.Starter); isStarter {
+		if starter, isStarter := out.(interface {
+			Start() error
+		}); isStarter {
 			monitor.Start("initialize outbound provider[", pTag, "]", " outbound/", out.Type(), "[", tag, "]")
 			err := starter.Start()
 			monitor.Finish()
@@ -369,7 +371,8 @@ func (p *myProviderAdapter) loopHealthCheck() {
 		return
 	}
 	p.healthCheckTicker = time.NewTicker(p.healthcheckInterval)
-	ctx, _ := context.WithCancel(p.ctx)
+	ctx, cancel := context.WithCancel(p.ctx)
+	defer cancel()
 	for {
 		select {
 		case <-ctx.Done():
