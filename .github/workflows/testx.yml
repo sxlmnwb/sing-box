@@ -50,7 +50,7 @@ jobs:
           go-version: ${{needs.go.outputs.version}}
       - name: build core
         run: |
-          TAGS="with_gvisor,with_dhcp,with_wireguard,with_reality_server,with_clash_api,with_quic,with_utls,with_ech"
+          TAGS="with_gvisor,with_dhcp,with_wireguard,with_reality_server,with_clash_api,with_quic,with_utls,with_ech,with_multi_dns"
           CC="$(which cc)"
           CCV=$("$CC" --version | head -n 1)
           DATE=$(date +"%a %b %d %I:%M:%S %p %Z %Y")

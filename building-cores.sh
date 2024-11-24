@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # sing-box - building-cores
-# https://sxlmnwb.nodex.one/sing-box/stable
+# https://sxlmnwb.nodex.one/sing-box/stable-multi-dns
 
-TARGET="stable" # stable / unstable
+TARGET="stable-multi-dns" # stable-multi-dns / unstable-multi-dns
 WORKDIR="${HOME}/sxlmnwb/prebuilts"
 OUTDIR="/var/www/sxlmnwb/sing-box/${TARGET}"
 NDK_VERSION="r27c" # https://github.com/android/ndk/releases
@@ -12,7 +12,7 @@ NDK="${WORKDIR}/android-ndk-${NDK_VERSION}/toolchains/llvm/prebuilt/linux-x86_64
 LLVM="${WORKDIR}/LLVM-${LLVM_VERSION}-Linux-X64/bin"
 # LLVM="${WORKDIR}/sxlzptprjkt-clang"
 CAF="${WORKDIR}/snapdragon-llvm/bin" # https://www.qualcomm.com/developer/software/snapdragon-llvm-compiler
-TAGS="with_gvisor,with_dhcp,with_wireguard,with_reality_server,with_clash_api,with_quic,with_utls,with_ech"
+TAGS="with_gvisor,with_dhcp,with_wireguard,with_reality_server,with_clash_api,with_quic,with_utls,with_ech,with_multi_dns"
 
 # Create output dir
 sudo mkdir -p "${OUTDIR}"
