@@ -125,6 +125,33 @@ func (h *Direct) DialParallel(ctx context.Context, network string, destination M
 	return N.DialParallel(ctx, h.dialer, network, destination, destinationAddresses, domainStrategy == dns.DomainStrategyPreferIPv6, h.fallbackDelay)
 }
 
+func (h *Direct) DialParallelWithAddr(ctx context.Context, network string, destination M.Socksaddr, destinationAddresses []netip.Addr) (net.Conn, netip.Addr, error) {
+	ctx, metadata := adapter.ExtendContext(ctx)
+	metadata.Outbound = h.tag
+	metadata.Destination = destination
+	switch h.overrideOption {
+	case 1, 2:
+		// override address
+		conn, err := h.DialContext(ctx, network, destination)
+		return conn, netip.Addr{}, err
+	case 3:
+		destination.Port = h.overrideDestination.Port
+	}
+	network = N.NetworkName(network)
+	switch network {
+	case N.NetworkTCP:
+		h.logger.InfoContext(ctx, "outbound connection to ", destination)
+	case N.NetworkUDP:
+		h.logger.InfoContext(ctx, "outbound packet connection to ", destination)
+	}
+	if h.domainStrategy != dns.DomainStrategyAsIS {
+		return N.DialParallelWithAddr(ctx, h.dialer, network, destination, destinationAddresses, h.domainStrategy == dns.DomainStrategyPreferIPv6, h.fallbackDelay)
+	} else if domainStrategy := dns.DomainStrategy(metadata.InboundOptions.DomainStrategy); domainStrategy != dns.DomainStrategyAsIS {
+		return N.DialParallelWithAddr(ctx, h.dialer, network, destination, destinationAddresses, domainStrategy == dns.DomainStrategyPreferIPv6, h.fallbackDelay)
+	}
+	return N.DialSerialWithAddr(ctx, h.dialer, network, destination, destinationAddresses)
+}
+
 func (h *Direct) ListenPacket(ctx context.Context, destination M.Socksaddr) (net.PacketConn, error) {
 	ctx, metadata := adapter.ExtendContext(ctx)
 	metadata.Outbound = h.tag
