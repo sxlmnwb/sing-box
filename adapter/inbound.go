@@ -60,7 +60,7 @@ type InboundContext struct {
 
 	// cache
 
-	Domain                   string
+	Domain string
 	// Deprecated: implement in rule action
 	InboundDetour            string
 	LastInbound              string

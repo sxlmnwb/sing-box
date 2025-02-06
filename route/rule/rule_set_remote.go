@@ -32,8 +32,8 @@ type RemoteRuleSet struct {
 	ctx            context.Context
 	cancel         context.CancelFunc
 	outbound       adapter.OutboundManager
-	path            string
-	options         option.RemoteRuleSet
+	path           string
+	options        option.RemoteRuleSet
 	updateInterval time.Duration
 	dialer         N.Dialer
 	lastEtag       string

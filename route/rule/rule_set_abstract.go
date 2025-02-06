@@ -19,6 +19,7 @@ import (
 	"github.com/sagernet/sing/common/json"
 	"github.com/sagernet/sing/common/logger"
 	"github.com/sagernet/sing/common/rw"
+
 	"go4.org/netipx"
 )
 
@@ -137,7 +138,7 @@ func (s *abstractRuleSet) loadBytes(content []byte) error {
 	default:
 		return E.New("unknown rule-set format: ", s.format)
 	}
-	plainRuleSet, err := ruleSet.Upgrade()
+	plainRuleSet, _ := ruleSet.Upgrade()
 	return s.reloadRules(plainRuleSet.Rules)
 }
 

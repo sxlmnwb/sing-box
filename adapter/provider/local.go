@@ -112,7 +112,7 @@ func (p *LocalProvider) UpdateProvider(ctx context.Context, router adapter.Route
 	}
 	defer p.updating.Store(false)
 	p.logger.DebugContext(ctx, "updating outbound provider ", p.tag, " from local file")
-	if !rw.FileExists(p.path) {
+	if !rw.IsFile(p.path) {
 		return nil
 	}
 	fileInfo, _ := os.Stat(p.path)

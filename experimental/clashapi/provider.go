@@ -6,13 +6,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/render"
 	"github.com/sagernet/sing-box/adapter"
 	C "github.com/sagernet/sing-box/constant"
 	"github.com/sagernet/sing/common"
 	F "github.com/sagernet/sing/common/format"
 	"github.com/sagernet/sing/common/json/badjson"
+
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/render"
 )
 
 func proxyProviderRouter(server *Server, router adapter.Router) http.Handler {
@@ -30,11 +31,11 @@ func proxyProviderRouter(server *Server, router adapter.Router) http.Handler {
 
 func providerInfo(server *Server, provider adapter.OutboundProvider) *render.M {
 	info := render.M{
-		"name":             provider.Tag(),
-		"type":             "Proxy",
-		"vehicleType":      strings.ToUpper(provider.Type()),
-		"testUrl":          provider.HealthcheckUrl(),
-		"updatedAt":        provider.UpdateTime().Format("2006-01-02T15:04:05.999999999-07:00"),
+		"name":        provider.Tag(),
+		"type":        "Proxy",
+		"vehicleType": strings.ToUpper(provider.Type()),
+		"testUrl":     provider.HealthcheckUrl(),
+		"updatedAt":   provider.UpdateTime().Format("2006-01-02T15:04:05.999999999-07:00"),
 		"proxies": common.Map(provider.Outbounds(), func(it adapter.Outbound) *badjson.JSONObject {
 			return proxyInfo(server, it)
 		}),

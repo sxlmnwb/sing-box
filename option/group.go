@@ -25,11 +25,11 @@ type SelectorOutboundOptions struct {
 
 type URLTestOutboundOptions struct {
 	GroupOutboundOptions
-	URL                       string             `json:"url,omitempty"`
-	Interval                  badoption.Duration `json:"interval,omitempty"`
-	Tolerance                 uint16             `json:"tolerance,omitempty"`
-	IdleTimeout               badoption.Duration `json:"idle_timeout,omitempty"`
-	InterruptExistConnections bool               `json:"interrupt_exist_connections,omitempty"`
+	URL                       string                 `json:"url,omitempty"`
+	Interval                  badoption.Duration     `json:"interval,omitempty"`
+	Tolerance                 uint16                 `json:"tolerance,omitempty"`
+	IdleTimeout               badoption.Duration     `json:"idle_timeout,omitempty"`
+	InterruptExistConnections bool                   `json:"interrupt_exist_connections,omitempty"`
 	Fallback                  URLTestFallbackOptions `json:"fallback,omitempty"`
 }
 

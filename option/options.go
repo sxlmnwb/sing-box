@@ -8,17 +8,17 @@ import (
 )
 
 type _Options struct {
-	RawMessage   json.RawMessage      `json:"-"`
-	Schema       string               `json:"$schema,omitempty"`
-	Log          *LogOptions          `json:"log,omitempty"`
-	DNS          *DNSOptions          `json:"dns,omitempty"`
-	NTP          *NTPOptions          `json:"ntp,omitempty"`
-	Endpoints    []Endpoint           `json:"endpoints,omitempty"`
-	Inbounds     []Inbound            `json:"inbounds,omitempty"`
-	Outbounds    []Outbound           `json:"outbounds,omitempty"`
-	OutboundProviders []OutboundProvider `json:"outbound_providers,omitempty"`
-	Route        *RouteOptions        `json:"route,omitempty"`
-	Experimental *ExperimentalOptions `json:"experimental,omitempty"`
+	RawMessage        json.RawMessage      `json:"-"`
+	Schema            string               `json:"$schema,omitempty"`
+	Log               *LogOptions          `json:"log,omitempty"`
+	DNS               *DNSOptions          `json:"dns,omitempty"`
+	NTP               *NTPOptions          `json:"ntp,omitempty"`
+	Endpoints         []Endpoint           `json:"endpoints,omitempty"`
+	Inbounds          []Inbound            `json:"inbounds,omitempty"`
+	Outbounds         []Outbound           `json:"outbounds,omitempty"`
+	OutboundProviders []OutboundProvider   `json:"outbound_providers,omitempty"`
+	Route             *RouteOptions        `json:"route,omitempty"`
+	Experimental      *ExperimentalOptions `json:"experimental,omitempty"`
 }
 
 type Options _Options

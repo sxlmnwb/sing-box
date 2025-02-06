@@ -36,11 +36,11 @@ var (
 
 type URLTest struct {
 	outbound.Adapter
-	router                       adapter.Router
-	outbound                     adapter.OutboundManager
-	provider                     adapter.OutboundProviderManager
-	connection                   adapter.ConnectionManager
-	logger                       log.ContextLogger
+	router     adapter.Router
+	outbound   adapter.OutboundManager
+	provider   adapter.OutboundProviderManager
+	connection adapter.ConnectionManager
+	logger     log.ContextLogger
 	myGroupAdapter
 	tags                         []string
 	link                         string
@@ -59,12 +59,12 @@ type URLTestFallback struct {
 
 func NewURLTest(ctx context.Context, router adapter.Router, logger log.ContextLogger, tag string, options option.URLTestOutboundOptions) (adapter.Outbound, error) {
 	outbound := &URLTest{
-		Adapter:                      outbound.NewAdapter(C.TypeURLTest, tag, []string{N.NetworkTCP, N.NetworkUDP}, options.Outbounds),
-		router:                       router,
-		outbound:                     service.FromContext[adapter.OutboundManager](ctx),
-		provider:                     service.FromContext[adapter.OutboundProviderManager](ctx),
-		connection:                   service.FromContext[adapter.ConnectionManager](ctx),
-		logger:                       logger,
+		Adapter:    outbound.NewAdapter(C.TypeURLTest, tag, []string{N.NetworkTCP, N.NetworkUDP}, options.Outbounds),
+		router:     router,
+		outbound:   service.FromContext[adapter.OutboundManager](ctx),
+		provider:   service.FromContext[adapter.OutboundProviderManager](ctx),
+		connection: service.FromContext[adapter.ConnectionManager](ctx),
+		logger:     logger,
 		myGroupAdapter: myGroupAdapter{
 			ctx:             ctx,
 			tags:            options.Outbounds,

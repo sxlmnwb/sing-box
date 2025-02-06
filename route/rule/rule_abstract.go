@@ -168,10 +168,10 @@ func (r *abstractDefaultRule) String() string {
 }
 
 type abstractLogicalRule struct {
-	rules  []adapter.HeadlessRule
-	mode   string
-	invert bool
-	action adapter.RuleAction
+	rules     []adapter.HeadlessRule
+	mode      string
+	invert    bool
+	action    adapter.RuleAction
 	ruleCount uint64
 }
 

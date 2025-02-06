@@ -34,10 +34,10 @@ var (
 
 type Selector struct {
 	outbound.Adapter
-	outbound                     adapter.OutboundManager
-	provider                     adapter.OutboundProviderManager
-	connection                   adapter.ConnectionManager
-	logger                       logger.ContextLogger
+	outbound   adapter.OutboundManager
+	provider   adapter.OutboundProviderManager
+	connection adapter.ConnectionManager
+	logger     logger.ContextLogger
 	myGroupAdapter
 	defaultTag                   string
 	outbounds                    []adapter.Outbound
@@ -50,11 +50,11 @@ type Selector struct {
 
 func NewSelector(ctx context.Context, router adapter.Router, logger log.ContextLogger, tag string, options option.SelectorOutboundOptions) (adapter.Outbound, error) {
 	outbound := &Selector{
-		Adapter:                      outbound.NewAdapter(C.TypeSelector, tag, nil, options.Outbounds),
-		outbound:                     service.FromContext[adapter.OutboundManager](ctx),
-		provider:                     service.FromContext[adapter.OutboundProviderManager](ctx),
-		connection:                   service.FromContext[adapter.ConnectionManager](ctx),
-		logger:                       logger,
+		Adapter:    outbound.NewAdapter(C.TypeSelector, tag, nil, options.Outbounds),
+		outbound:   service.FromContext[adapter.OutboundManager](ctx),
+		provider:   service.FromContext[adapter.OutboundProviderManager](ctx),
+		connection: service.FromContext[adapter.ConnectionManager](ctx),
+		logger:     logger,
 		myGroupAdapter: myGroupAdapter{
 			ctx:             ctx,
 			tags:            options.Outbounds,

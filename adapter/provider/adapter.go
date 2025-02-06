@@ -40,12 +40,12 @@ type SubInfo struct {
 }
 
 type myProviderAdapter struct {
-	ctx             context.Context
-	manager         *Manager
-	cancel          context.CancelFunc
-	router          adapter.Router
-	logger          log.ContextLogger
-	subInfo         SubInfo
+	ctx     context.Context
+	manager *Manager
+	cancel  context.CancelFunc
+	router  adapter.Router
+	logger  log.ContextLogger
+	subInfo SubInfo
 
 	// Common config
 	tag                 string
@@ -394,7 +394,8 @@ func (p *myProviderAdapter) loopHealthCheck() {
 		return
 	}
 	p.healthCheckTicker = time.NewTicker(p.healthcheckInterval)
-	ctx, _ := context.WithCancel(p.ctx)
+	ctx, cancel := context.WithCancel(p.ctx)
+	defer cancel()
 	for {
 		select {
 		case <-ctx.Done():

@@ -80,54 +80,54 @@ func URLTest(ctx context.Context, link string, detour N.Dialer) (t uint16, err e
 	}
 	// Function to run the delay test
 	runTest := func() (delay uint16, err error) {
-	linkURL, err := url.Parse(link)
-	if err != nil {
-		return
-	}
-	hostname := linkURL.Hostname()
-	port := linkURL.Port()
-	if port == "" {
-		switch linkURL.Scheme {
-		case "http":
-			port = "80"
-		case "https":
-			port = "443"
+		linkURL, err := url.Parse(link)
+		if err != nil {
+			return
 		}
-	}
+		hostname := linkURL.Hostname()
+		port := linkURL.Port()
+		if port == "" {
+			switch linkURL.Scheme {
+			case "http":
+				port = "80"
+			case "https":
+				port = "443"
+			}
+		}
 
-	start := time.Now()
-	instance, err := detour.DialContext(ctx, "tcp", M.ParseSocksaddrHostPortStr(hostname, port))
-	if err != nil {
-		return
-	}
-	defer instance.Close()
-	if earlyConn, isEarlyConn := common.Cast[N.EarlyConn](instance); isEarlyConn && earlyConn.NeedHandshake() {
-		start = time.Now()
-	}
-	req, err := http.NewRequest(http.MethodHead, link, nil)
-	if err != nil {
-		return
-	}
-	client := http.Client{
-		Transport: &http.Transport{
-			DialContext: func(ctx context.Context, network, addr string) (net.Conn, error) {
-				return instance, nil
+		start := time.Now()
+		instance, err := detour.DialContext(ctx, "tcp", M.ParseSocksaddrHostPortStr(hostname, port))
+		if err != nil {
+			return
+		}
+		defer instance.Close()
+		if earlyConn, isEarlyConn := common.Cast[N.EarlyConn](instance); isEarlyConn && earlyConn.NeedHandshake() {
+			start = time.Now()
+		}
+		req, err := http.NewRequest(http.MethodHead, link, nil)
+		if err != nil {
+			return
+		}
+		client := http.Client{
+			Transport: &http.Transport{
+				DialContext: func(ctx context.Context, network, addr string) (net.Conn, error) {
+					return instance, nil
+				},
 			},
-		},
-		CheckRedirect: func(req *http.Request, via []*http.Request) error {
-			return http.ErrUseLastResponse
-		},
-		Timeout: C.TCPTimeout,
-	}
-	defer client.CloseIdleConnections()
-	resp, err := client.Do(req.WithContext(ctx))
-	if err != nil {
-		return
-	}
-	resp.Body.Close()
+			CheckRedirect: func(req *http.Request, via []*http.Request) error {
+				return http.ErrUseLastResponse
+			},
+			Timeout: C.TCPTimeout,
+		}
+		defer client.CloseIdleConnections()
+		resp, err := client.Do(req.WithContext(ctx))
+		if err != nil {
+			return
+		}
+		resp.Body.Close()
 
-	delay = uint16(time.Since(start) / time.Millisecond)
-	return
+		delay = uint16(time.Since(start) / time.Millisecond)
+		return
 	}
 	delay1, err := runTest()
 	if err != nil {

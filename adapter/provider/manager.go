@@ -166,7 +166,7 @@ func (m *Manager) Create(ctx context.Context, router adapter.Router, tag string,
 	if foundPath, loaded := C.FindPath(path); loaded {
 		path = foundPath
 	}
-	if !rw.FileExists(path) {
+	if !rw.IsFile(path) {
 		path = filemanager.BasePath(ctx, path)
 	}
 	if stat, err := os.Stat(path); err == nil {

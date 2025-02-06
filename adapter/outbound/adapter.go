@@ -1,8 +1,8 @@
 package outbound
 
 import (
-	"github.com/sagernet/sing-box/option"
 	C "github.com/sagernet/sing-box/constant"
+	"github.com/sagernet/sing-box/option"
 )
 
 type Adapter struct {

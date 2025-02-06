@@ -8,8 +8,8 @@ import (
 	"crypto/tls"
 	"encoding/binary"
 	"io"
-	"os"
 	"net/netip"
+	"os"
 
 	"github.com/sagernet/sing-box/adapter"
 	"github.com/sagernet/sing-box/common/ja3"
